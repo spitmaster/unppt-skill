@@ -39,6 +39,7 @@ const failList = [];
 
 try {
   for (const name of await readdir(inDir)) {
+    // 只处理 .pptx；老格式 .ppt 需先在 PowerPoint 另存为 .pptx（转码器不支持 .ppt）
     if (extname(name).toLowerCase() !== '.pptx') continue;
     const outDir = join(outRoot, basename(name, extname(name)));
     const write = async (path, data) => {

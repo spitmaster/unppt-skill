@@ -56,7 +56,7 @@ interface RandomAccessSource {
 | `report.warnings` | 转码警告（如"第 3 页渲染失败：……"，同类合并为"……（N 处）"） |
 | `fontCheck` | 字体检查，同 `unppt check --json`（见下文） |
 
-出错行为：文件不是有效 pptx、`output` 写错等 → Promise reject；**单页**出错不整体失败，输出白页 + warning；`write` 回调抛错 → convert 失败。
+出错行为：文件不是有效 pptx、`output` 写错等 → Promise reject；老格式 .ppt（OLE 二进制）或加密的 pptx → reject，错误信息为"这是老格式的 .ppt 文件（或加密的 pptx），暂不支持，请用 PowerPoint 另存为 .pptx 后再转码"；**单页**出错不整体失败，输出白页 + warning；`write` 回调抛错 → convert 失败。服务端处理上传时建议捕获该错误并提示用户重新上传 .pptx。
 
 ## write 回调（最重要的坑）
 

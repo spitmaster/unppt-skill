@@ -8,6 +8,7 @@ unppt check <输入.pptx> [--json] [字体选项]   # 只检查字体，不写�
 ```
 
 - 不写 `-o` 时，在 pptx 旁边新建同名文件夹放产物（入口 `index.html`；`data` 形式是 `deck.json`）。
+- 输入只支持 .pptx（OOXML zip 格式）。老的二进制 .ppt（或加密的 pptx）会报错"这是老格式的 .ppt 文件（或加密的 pptx），暂不支持"——先在 PowerPoint 里另存为 .pptx 再转码。
 - 旧写法 `unppt convert <输入.pptx>` 仍可用（0.2.0 起可省略 `convert`）。
 - 退出码：0 成功；1 转码错误 / `check` 发现必须处理的问题 / 文件读不出来；2 用法错误（此时打印版本和用法）。
 

@@ -1,6 +1,6 @@
 ---
 name: unppt
-description: 把 PowerPoint 课件（.pptx）一条命令转换成网页/HTML：保留动画、页面切换、音视频，效果对齐 PowerPoint；支持单文件 HTML、按需加载、iframe 嵌入、postMessage 控制翻页、批量转换、字体检查、Node/云函数/浏览器内调用。当用户要求"PPT 转网页、pptx 转 HTML、课件在线播放、把 PPT 放到网站上、嵌入 PPT 播放器、用代码控制 PPT 翻页、检查 PPT 字体、批量转换 PPT"时使用本技能（convert PowerPoint pptx to web page HTML, embed and control slides playback）。
+description: 把 PowerPoint 课件一条命令转换成网页/HTML：保留动画、页面切换、音视频，效果对齐 PowerPoint；直接输入 .pptx（老格式 .ppt 先在 PowerPoint 另存为 .pptx）；支持单文件 HTML、按需加载、iframe 嵌入、postMessage 控制翻页、批量转换、字体检查、Node/云函数/浏览器内调用。当用户要求"PPT 转网页、pptx 转 HTML、ppt 转换、课件在线播放、把 PPT 放到网站上、嵌入 PPT 播放器、用代码控制 PPT 翻页、检查 PPT 字体、批量转换 PPT"时使用本技能（convert PowerPoint pptx to web page HTML, embed and control slides playback）。
 agent_created: true
 ---
 
@@ -8,7 +8,9 @@ agent_created: true
 
 ## 概述
 
-unppt（npm 包 `@unppt/unppt`，要求 Node.js ≥ 20.12）把 .pptx 文件转码成网页：浏览器打开即可播放，动画、切换、音视频保留，效果对齐 PowerPoint。产物可本地双击打开、放静态服务器/CDN、嵌进任何网页或 App，并可用代码控制翻页。
+unppt（npm 包 `@unppt/unppt`，要求 Node.js ≥ 20.12）把 PowerPoint 课件转码成网页：浏览器打开即可播放，动画、切换、音视频保留，效果对齐 PowerPoint。产物可本地双击打开、放静态服务器/CDN、嵌进任何网页或 App，并可用代码控制翻页。
+
+**输入格式**：直接支持 .pptx（OOXML）。老的二进制格式 .ppt 不受支持——转码器会报错"这是老格式的 .ppt 文件（或加密的 pptx），暂不支持"；遇到 .ppt 时引导用户在 PowerPoint 里"另存为 .pptx"后再转码，或（Windows + PowerPoint 环境）用 COM 自动化批量另存。加密的 pptx 同样无法转码。
 
 本技能基于 unppt 0.3.2。完整文档见 <https://github.com/spitmaster/unppt>。
 
@@ -48,6 +50,8 @@ unppt 课件.pptx -o out/index.html --output single   # 单文件 HTML
 ```
 
 单页渲染失败不会导致整体失败：该页输出白页并在警告里记录。退出码：0 成功；1 转码错误（或 `check` 发现必须处理的问题）；2 用法错误。
+
+**遇到 .ppt 文件**：转码器会明确报错（错误信息会提示"请用 PowerPoint 另存为 .pptx"）。正确流程：先在 PowerPoint 中打开 → 文件 → 另存为 → .pptx，再对 .pptx 转码；批量场景可在 Windows 上用 PowerPoint COM 自动完成（`Presentations.Open(只读)` + `SaveCopyAs(目标路径, 24)`，24 = ppSaveAsOpenXMLPresentation，unppt 仓库 `tools/powerpoint/export.py` 就是这么做的）。
 
 ### 2. 批量转换一个目录
 

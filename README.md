@@ -14,6 +14,8 @@ With this skill installed, just tell the AI:
 
 The AI follows the workflow in `SKILL.md` to pick the right output form, run the conversion, surface font issues, and automatically loads the detailed references under `references/` when advanced tasks (embedding/control, cloud-function deployment) come up.
 
+> **Input format**: direct input is `.pptx` (OOXML). Legacy binary `.ppt` files are not supported by the converter itself — save them as `.pptx` in PowerPoint first (File → Save As); the skill teaches the AI to guide users through this, including batch conversion via PowerPoint COM automation on Windows.
+
 ## Repository layout
 
 ```
